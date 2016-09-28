@@ -9,7 +9,8 @@
     "node": ">=4"
   },
   "scripts": {
-    "postinstall": "./fixRamdaTypings.sh && tsc --pretty"
+    "postinstall": "./fixRamdaTypings.sh",
+    "k-neighbor": "tsc --pretty && node dist/k-neighbor.js"
   },
   "dependencies": {
     "@types/chai": "^3.4.34",

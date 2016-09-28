@@ -164,7 +164,7 @@ expect(guessType(knownNodes, 3, {
 })).to.eql('apartment');
 
 expect(guessType(knownNodes, 3, {
-    rooms: 2,
+    rooms: 3,
     area: 1200
 })).to.eql('flat');
 
@@ -172,3 +172,5 @@ expect(guessType(knownNodes, 3, {
     rooms: 7,
     area: 1400
 })).to.eql('house');
+
+console.log('k-neighbor tests ran successfully');
