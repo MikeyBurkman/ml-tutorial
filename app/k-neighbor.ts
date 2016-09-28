@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import {expect} from 'chai';
 
 type spaceType = 'apartment'|'house'|'flat';
 
@@ -156,7 +157,18 @@ const knownNodes: KnownKNode[] = [{
     type: 'flat'
 }];
 
-console.log('New type: ', guessType(knownNodes, 3, {
+
+expect(guessType(knownNodes, 3, {
     rooms: 3,
     area: 350
-}));
+})).to.eql('apartment');
+
+expect(guessType(knownNodes, 3, {
+    rooms: 2,
+    area: 1200
+})).to.eql('flat');
+
+expect(guessType(knownNodes, 3, {
+    rooms: 7,
+    area: 1400
+})).to.eql('house');
