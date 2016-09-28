@@ -9,7 +9,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "postinstall": "tsc --pretty"
+    "postinstall": "./fixRamdaTypings.sh && tsc --pretty"
   },
   "dependencies": {
     "@types/ramda": "^0.0.1",
