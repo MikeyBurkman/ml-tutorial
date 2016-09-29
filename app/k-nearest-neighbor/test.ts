@@ -98,7 +98,6 @@ const knownNodes: KnownKNode[] = [{
     type: 'flat'
 }];
 
-
 expect(guessType(knownNodes, 3, {
     rooms: 3,
     area: 350

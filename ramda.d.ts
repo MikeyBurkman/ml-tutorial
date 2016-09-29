@@ -10,6 +10,9 @@ Changed the following declarations from the official release -- mburkman
 
         countBy<T>(fn: (a: T) => string, list: T[]): {[key: string]: number};
         countBy<T>(fn: (a: T) => string): (list: T[]) => {[key: string]: number};
+
+        zip<K,V>(list1: K[], list2: V[]): [K,V][];
+        zip<K>(list1: K[]): <V>(list2: V[]) => [K,V][];
 */
 
 declare var R: R.Static;
@@ -1791,8 +1794,8 @@ declare namespace R {
          * Creates a new list out of the two supplied by pairing up equally-positioned items from
          * both lists. Note: `zip` is equivalent to `zipWith(function(a, b) { return [a, b] })`.
          */
-        zip<K,V>(list1: K[], list2: V[]): KeyValuePair<K,V>[];
-        zip<K>(list1: K[]): <V>(list2: V[]) => KeyValuePair<K,V>[];
+        zip<K,V>(list1: K[], list2: V[]): [K,V][];
+        zip<K>(list1: K[]): <V>(list2: V[]) => [K,V][];
 
         /**
          * Creates a new object out of a list of keys and a list of values.

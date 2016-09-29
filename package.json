@@ -12,7 +12,8 @@
     "postinstall": "cp-cli ./ramda.d.ts ./node_modules/@types/ramda/ramda.d.ts",
     "clean": "del './app/**/*.js*'",
     "compile": "npm run clean && tsc --pretty",
-    "k-neighbor": "npm run compile && node app/k-nearest-neighbor/test.js"
+    "k-neighbor": "npm run compile && node app/k-nearest-neighbor/test.js",
+    "k-means": "npm run compile && node app/k-means/test.js"
   },
   "dependencies": {
     "@types/chai": "^3.4.34",
