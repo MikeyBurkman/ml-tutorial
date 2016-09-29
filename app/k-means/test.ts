@@ -26,8 +26,12 @@ const data:Point[] = [
     [9, 9],
 ];
 
-const clusters = findClusterPoints(3, data);
+const numClusters = 3;
+const clusters = findClusterPoints(numClusters, data);
 
+// Note: this algorithm has some randomness to it, so the best we can really do
+//  is calculate the clusters several times, and very that the most common result
+//  is the following: [1.7142857142857142, 2], [7.5, 2.6666666666666665], [8.333333333333334, 9]
 console.log('Clusters:', JSON.stringify(clusters, null, 2));
 
-expect(clusters.length).to.eql(3);
+expect(clusters.length).to.eql(numClusters);

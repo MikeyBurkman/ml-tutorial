@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 // Public API
 
-export type dwellingType = 'apartment'|'house'|'flat';
+export type DwellingType = 'apartment'|'house'|'flat';
 
 export interface KNode {
     readonly rooms:number;
@@ -10,10 +10,10 @@ export interface KNode {
 }
 
 export interface KnownKNode extends KNode {
-    readonly type:dwellingType
+    readonly type: DwellingType
 }
 
-export function guessType(nodes: KnownKNode[], k: number, unknown: KNode): dwellingType {
+export function guessType(nodes: KnownKNode[], k: number, unknown: KNode): DwellingType {
     const closestNodes = pickKClosest(k, nodes, unknown);
     return mostCommonType(closestNodes);
 }
@@ -56,14 +56,14 @@ function pickKClosest(k: number, nodes: KnownKNode[], unknown: KNode): KnownKNod
     return topPicks.map(pick => pick.node);
 }
 
-function mostCommonType(nodes: KnownKNode[]): dwellingType {
+function mostCommonType(nodes: KnownKNode[]): DwellingType {
     const counts = R.countBy(pick => pick.type, nodes);
 
     let curCount = -1;
-    let curType:dwellingType|null = null;
+    let curType: DwellingType|null = null;
     Object.keys(counts).forEach(type => {
         if (counts[type] >= curCount) {
-            curType = <dwellingType>type;
+            curType = <DwellingType>type;
             curCount = counts[type];
         }
     });

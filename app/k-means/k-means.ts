@@ -13,10 +13,45 @@ export function findClusterPoints(k: number, points: Point[]): Point[] {
 
 // Private functions
 
+type Cluster = Point[];
+
+function randomPoint(): Point {
+    const max = 10;
+    return [
+        Math.ceil(Math.random() * max),
+        Math.ceil(Math.random() * max)
+    ];
+}
+
 function distBetween(point1: Point, point2: Point): number {
     const deltaX = point1[0] - point2[0];
     const deltaY = point1[1] - point2[1];
     return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+}
+
+// Returns the index of which cluster center this point is closest to
+function closestCluster(clusterCenters: Point[], point: Point): number {
+    const clusterDists = clusterCenters.map((cluster, idx) => ({
+        idx: idx,
+        dist: distBetween(cluster, point)
+    }));
+
+    const sorted = R.sortBy(c => c.dist, clusterDists);
+
+    return sorted[0].idx;
+}
+
+// Groups each point to the cluster center it's closest too.
+// results[0] -> the list of points closest to clusterCenters[0], etc.
+function groupPointsToClusters(points: Point[], clusterCenters: Point[]): Cluster[] {
+    const clusters: Cluster[] = clusterCenters.map(() => []);
+
+    points.forEach(point => {
+        const clusterIdx = closestCluster(clusterCenters, point);
+        clusters[clusterIdx].push(point);
+    });
+
+    return clusters;
 }
 
 function averagePoint(points: Point[]): Point {
@@ -28,43 +63,25 @@ function averagePoint(points: Point[]): Point {
     ];
 }
 
-function randomPoint(): Point {
-    const max = 10;
-    return [
-        Math.ceil(Math.random() * max),
-        Math.ceil(Math.random() * max)
-    ];
+function pointHasChanged(points: [Point, Point]) {
+    return distBetween(points[0], points[1]).toFixed(2) !== '0.00';
 }
 
-// Returns the index of which cluster this point is closed to
-function closestCluster(clusters: Point[], point: Point): number {
-    const clusterDists = clusters.map((cluster, idx) => ({
-        idx: idx,
-        dist: distBetween(cluster, point)
-    }));
-
-    const sorted = R.sortBy(c => c.dist, clusterDists);
-
-    return sorted[0].idx;
+function calculateNewCenter(cluster: Cluster) {
+    // If we get a cluster with no points assigned to it, pick a new 
+    //  random point, so it's not a permanently dead cluster
+    return cluster.length === 0 ? randomPoint() : averagePoint(cluster);
 }
 
-function refineClusters(points: Point[], clusters: Point[]): Point[] {
+function refineClusters(points: Point[], clusterCenters: Point[]): Point[] {
 
-    const pointsToCluster: Point[][] = R.range(0, clusters.length).map(() => []);
-    points.forEach(point => {
-        const clusterIdx = closestCluster(clusters, point);
-        pointsToCluster[clusterIdx].push(point);
-    });
+    const clusters = groupPointsToClusters(points, clusterCenters);
 
-    const newClusters: Point[] = pointsToCluster.map(averagePoint);
+    const newClusterCenters = clusters.map(calculateNewCenter);
 
-    const pointChanged = (points: [Point, Point]) => distBetween(points[0], points[1]).toFixed(2) !== '0.00'
-
-    const zipped = R.zip(clusters, newClusters);
-
-    if (R.any(pointChanged, zipped)) {
-        return refineClusters(points, newClusters);
+    if (R.any(pointHasChanged, R.zip(clusterCenters, newClusterCenters))) {
+        return refineClusters(points, newClusterCenters);
     } else {
-        return clusters;
+        return clusterCenters;
     }
 }
