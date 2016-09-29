@@ -10,13 +10,15 @@
   },
   "scripts": {
     "postinstall": "./fixRamdaTypings.sh",
-    "compile": "tsc --pretty",
+    "clean": "del './app/**/*.js*'",
+    "compile": "npm run clean && tsc --pretty",
     "k-neighbor": "npm run compile && node app/k-nearest-neighbor/test.js"
   },
   "dependencies": {
     "@types/chai": "^3.4.34",
     "@types/ramda": "^0.0.1",
     "chai": "^3.5.0",
+    "del-cli": "^0.2.0",
     "ramda": "0.22.1",
     "ts-node": "^1.3.0",
     "typescript": "^v2.0.3"
