@@ -23,7 +23,7 @@ function randomPoint(): Point {
     ];
 }
 
-function distBetween(point1: Point, point2: Point): number {
+function distanceBetween(point1: Point, point2: Point): number {
     const deltaX = point1[0] - point2[0];
     const deltaY = point1[1] - point2[1];
     return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
@@ -31,9 +31,9 @@ function distBetween(point1: Point, point2: Point): number {
 
 // Returns the index of which cluster center this point is closest to
 function closestCluster(clusterCenters: Point[], point: Point): number {
-    const clusterDists = clusterCenters.map((cluster, idx) => ({
+    const clusterDists = clusterCenters.map((clusterCenter, idx) => ({
         idx: idx,
-        dist: distBetween(cluster, point)
+        dist: distanceBetween(clusterCenter, point)
     }));
 
     const sorted = R.sortBy(c => c.dist, clusterDists);
@@ -63,11 +63,11 @@ function averagePoint(points: Point[]): Point {
     ];
 }
 
-function pointHasChanged(points: [Point, Point]) {
-    return distBetween(points[0], points[1]).toFixed(2) !== '0.00';
+function pointHasChanged(points: [Point, Point]): boolean {
+    return distanceBetween(points[0], points[1]).toFixed(3) !== '0.000';
 }
 
-function calculateNewCenter(cluster: Cluster) {
+function calculateNewCenter(cluster: Cluster): Point {
     // If we get a cluster with no points assigned to it, pick a new 
     //  random point, so it's not a permanently dead cluster
     return cluster.length === 0 ? randomPoint() : averagePoint(cluster);
