@@ -23,8 +23,8 @@ function distanceBetween(ranges: Ranges, node1: KNode, node2: KNode): number {
 }
 
 function getRanges(nodes: KNode[]): Ranges{
-    var allRooms = nodes.map(node => node.rooms);
-    var allAreas = nodes.map(node => node.area);
+    const allRooms = nodes.map(node => node.rooms);
+    const allAreas = nodes.map(node => node.area);
     return {
         roomRange: Math.max.apply(Math.max, allRooms) - Math.min.apply(Math.min, allRooms),
         areaRange: Math.max.apply(Math.max, allAreas) - Math.min.apply(Math.min, allAreas)
@@ -36,10 +36,9 @@ export function guessType(nodes: KnownKNode[], k: number, unknown: KNode): space
     const allNodes = [unknown].concat(nodes);
     const ranges = getRanges(allNodes);
 
-    const diff = (node: KnownKNode) => distanceBetween(ranges, unknown, node);
     const values = nodes.map(node => ({
         type: node.type,
-        dist: diff(node)
+        dist: distanceBetween(ranges, unknown, node)
     }));
     
     const sorted = R.sortBy(a => a.dist, values);
