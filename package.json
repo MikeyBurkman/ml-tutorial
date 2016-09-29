@@ -10,7 +10,8 @@
   },
   "scripts": {
     "postinstall": "./fixRamdaTypings.sh",
-    "k-neighbor": "tsc --pretty && node dist/k-neighbor.js"
+    "compile": "tsc --pretty",
+    "k-neighbor": "npm run compile && node app/k-nearest-neighbor/test.js"
   },
   "dependencies": {
     "@types/chai": "^3.4.34",
