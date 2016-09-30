@@ -1,4 +1,11 @@
 
+/*
+ * Attempts to find the centers of clusters in a known set of points. The number 
+ *  of clusters is assumed to be known ahead of time (k). If k = 3, then the 
+ *  algorithm will return 3 points, each of which is the approximate center of
+ *  each of 3 clusters in the set of points. 
+ */
+
 import * as R from 'ramda';
 
 // Public API

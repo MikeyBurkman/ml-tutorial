@@ -1,10 +1,10 @@
 
 import {expect} from 'chai';
 
-import {KnownKNode, guessType} from './k-neighbor';
+import {TypeKnownDwelling, guessType} from './k-neighbor';
 
 
-const knownNodes: KnownKNode[] = [{
+const knownNodes: TypeKnownDwelling[] = [{
     rooms: 1,
     area: 350,
     type: 'apartment'
