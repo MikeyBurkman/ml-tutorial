@@ -38,7 +38,7 @@ function distanceBetween(ranges: Ranges, node1: Dwelling, node2: Dwelling): numb
     return Math.sqrt(deltaRooms*deltaRooms + deltaAreas * deltaAreas);
 }
 
-function getRanges(nodes: KNode[]): Ranges{
+function getRanges(nodes: Dwelling[]): Ranges{
     const allRooms = nodes.map(node => node.rooms);
     const allAreas = nodes.map(node => node.area);
     return {
@@ -51,16 +51,9 @@ function pickKClosest(k: number, nodes: TypeKnownDwelling[], unknown: Dwelling):
     const allNodes = [unknown].concat(nodes);
     const ranges = getRanges(allNodes);
 
-    const nodeAndDist = nodes.map(node => ({
-        node: node,
-        dist: distanceBetween(ranges, unknown, node)
-    }));
-    
-    const sorted = R.sortBy(a => a.dist, nodeAndDist);
+    const sortedNodes = R.sortBy(node => distanceBetween(ranges, unknown, node), nodes);
 
-    const topPicks = sorted.slice(0, k);
-
-    return topPicks.map(pick => pick.node);
+    return sortedNodes.slice(0, k);
 }
 
 function mostCommonType(nodes: TypeKnownDwelling[]): DwellingType {
