@@ -14,7 +14,7 @@
     "compile": "npm run clean && tsc --pretty",
     "k-neighbor": "npm run compile && node app/k-nearest-neighbor/test.js",
     "k-means": "npm run compile && node app/k-means/test.js",
-    "ga": "npm run compile && node app/ga/test.js"
+    "ga": "npm run compile && node app/genetic/test.js"
   },
   "dependencies": {
     "@types/chai": "^3.4.34",
