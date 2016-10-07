@@ -77,12 +77,8 @@ interface ScoredPopulation {
 }
 
 function getElementNames(elements: Element[], chromosome: Chromosome): string[] {
-    return chromosome.elementIncluded.reduce<string[]>((curList, included, idx) => {
-        if (included) {
-            curList.push(elements[idx].name);
-        }   
-        return curList;
-    }, []);
+    const zipped = R.zip(elements, chromosome.elementIncluded);
+    return R.chain(([element, included]) => included ? [element.name] : [], zipped);
 }
 
 function newPopulation(params: Params, previous?: Population): Population {
